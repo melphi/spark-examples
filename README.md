@@ -3,7 +3,7 @@ spark-examples
 
 ## Content
 
-To run the Java example execute maven test command from the project folder. Java 8 or above is required.
+To run the Java example go to the project folder and execute maven test command. Java 8 or above is required.
 
 - first-example: Spark, Maven, Java. Performs a simple word count task.
 
