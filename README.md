@@ -10,4 +10,4 @@ To run the Java example go to the project folder and execute maven test command.
 
 
 ## More information
-For more tutorials and examples about Apache Spark visit http://www.robertomarchetto.com
+For more tutorials and examples about Apache Spark visit [http://www.robertomarchetto.com](http://www.robertomarchetto.com/category/apache_spark)
