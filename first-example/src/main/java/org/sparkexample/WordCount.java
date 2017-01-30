@@ -34,14 +34,14 @@ public class WordCount {
    * The task body
    */
   public void run(String inputFilePath) {
-    /**
+    /*
      * This is the address of the Spark cluster. We will call the task from WordCountTest and we
      * use a local standalone cluster. [*] means use all the cores available.
      * See {@see http://spark.apache.org/docs/latest/submitting-applications.html#master-urls}.
      */
     String master = "local[*]";
 
-    /**
+    /*
      * Initialises a Spark context.
      */
     SparkConf conf = new SparkConf()
@@ -49,7 +49,7 @@ public class WordCount {
         .setMaster(master);
     JavaSparkContext context = new JavaSparkContext(conf);
 
-    /**
+    /*
      * Performs a work count sequence of tasks and prints the output with a logger.
      */
     context.textFile(inputFilePath)
