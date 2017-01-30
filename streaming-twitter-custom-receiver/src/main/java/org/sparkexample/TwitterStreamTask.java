@@ -61,12 +61,15 @@ public class TwitterStreamTask {
     /*
      * Uses the custom Twitter receiver. For every micro batch prints the collected messages.
      *
+     * coalesce(10) filters out empty micro batches by reducing the partitions.
+     *
      * Make sure resources/twitter4j.properties contains your Twitter authentication values.
-     * {@see https://apps.twitter.com}
+     * {@see https://apps.twitter.com}.
      */
     streamingContext.receiverStream(new TwitterReceiver(StorageLevel.MEMORY_ONLY()))
         .foreachRDD(
-            rdd -> rdd.foreach(message -> LOGGER.info(message.getText())));
+            rdd -> rdd.coalesce(10)
+                .foreach(message -> LOGGER.info(message.getText())));
 
     /*
      * Starts the streaming task.
