@@ -1,55 +1,62 @@
 package org.sparkexample;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function2;
-import org.apache.spark.api.java.function.PairFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 import java.util.Arrays;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+/**
+ * WordCount class, we will call this class with the test WordCountTest.
+ */
 public class WordCount {
-  private static final FlatMapFunction<String, String> WORDS_EXTRACTOR =
-      new FlatMapFunction<String, String>() {
-        @Override
-        public Iterable<String> call(String s) throws Exception {
-          return Arrays.asList(s.split(" "));
-        }
-      };
+  /**
+   * We use a logger to print the output. Sl4j is a common library which works with log4j, the
+   * logging system used by Apache Spark.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(WordCount.class);
 
-  private static final PairFunction<String, String, Integer> WORDS_MAPPER =
-      new PairFunction<String, String, Integer>() {
-        @Override
-        public Tuple2<String, Integer> call(String s) throws Exception {
-          return new Tuple2<String, Integer>(s, 1);
-        }
-      };
-
-  private static final Function2<Integer, Integer, Integer> WORDS_REDUCER =
-      new Function2<Integer, Integer, Integer>() {
-        @Override
-        public Integer call(Integer a, Integer b) throws Exception {
-          return a + b;
-        }
-      };
-
+  /**
+   * This is the entry point function when the task is called with spark-submit.sh from command
+   * line. In our example we will call the task from a WordCountTest instead.
+   * See {@link http://spark.apache.org/docs/latest/submitting-applications.html}
+   */
   public static void main(String[] args) {
-    if (args.length < 1) {
-      System.err.println("Please provide the input file full path as argument");
-      System.exit(0);
-    }
+    checkArgument(args.length > 1, "Please provide the path of input file as first parameter.");
+    new WordCount().run(args[1]);
+  }
 
-    SparkConf conf = new SparkConf().setAppName("org.sparkexample.WordCount").setMaster("local");
+  /**
+   * The task body
+   */
+  public void run(String inputFilePath) {
+    /**
+     * This is the address of the Spark cluster. We will call the task from WordCountTest and we
+     * use a local standalone cluster. [*] means use all the cores available.
+     * See {@link http://spark.apache.org/docs/latest/submitting-applications.html#master-urls}.
+     */
+    String master = "local[*]";
+
+    /**
+     * Initialises a Spark context.
+     */
+    SparkConf conf = new SparkConf()
+        .setAppName(WordCount.class.getName())
+        .setMaster(master);
     JavaSparkContext context = new JavaSparkContext(conf);
 
-    JavaRDD<String> file = context.textFile(args[0]);
-    JavaRDD<String> words = file.flatMap(WORDS_EXTRACTOR);
-    JavaPairRDD<String, Integer> pairs = words.mapToPair(WORDS_MAPPER);
-    JavaPairRDD<String, Integer> counter = pairs.reduceByKey(WORDS_REDUCER);
-
-    counter.saveAsTextFile(args[1]);
+    /**
+     * Performs a work count sequence of tasks and prints the output with a logger.
+     */
+    context.textFile(inputFilePath)
+        .flatMap(text -> Arrays.asList(text.split(" ")).iterator())
+        .mapToPair(word -> new Tuple2<>(word, 1))
+        .reduceByKey((a, b) -> a + b)
+        .foreach(result -> LOGGER.info(
+            String.format("Word [%s] count [%d].", result._1(), result._2)));
   }
 }
