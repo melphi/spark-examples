@@ -3,7 +3,9 @@ spark-examples
 
 ## Content
 
-- first-example: Spark, Maven, Java 8 example. Performs a simple word count task. Use maven test command to run the example.
+To run the Java example execute maven test command from the project folder. Java 8 or above is required.
+
+- first-example: Spark, Maven, Java. Performs a simple word count task.
 
 
 ## More information
