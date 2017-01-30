@@ -11,14 +11,14 @@ import java.util.Arrays;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * WordCount class, we will call this class with the test WordCountTest.
+ * WordCountTask class, we will call this class with the test WordCountTest.
  */
-public class WordCount {
+public class WordCountTask {
   /**
    * We use a logger to print the output. Sl4j is a common library which works with log4j, the
    * logging system used by Apache Spark.
    */
-  private static final Logger LOGGER = LoggerFactory.getLogger(WordCount.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(WordCountTask.class);
 
   /**
    * This is the entry point function when the task is called with spark-submit.sh from command
@@ -27,7 +27,7 @@ public class WordCount {
    */
   public static void main(String[] args) {
     checkArgument(args.length > 1, "Please provide the path of input file as first parameter.");
-    new WordCount().run(args[1]);
+    new WordCountTask().run(args[1]);
   }
 
   /**
@@ -45,7 +45,7 @@ public class WordCount {
      * Initialises a Spark context.
      */
     SparkConf conf = new SparkConf()
-        .setAppName(WordCount.class.getName())
+        .setAppName(WordCountTask.class.getName())
         .setMaster(master);
     JavaSparkContext context = new JavaSparkContext(conf);
 

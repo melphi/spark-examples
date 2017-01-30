@@ -17,7 +17,7 @@ import twitter4j.User;
  * Make sure resources/twitter4j.properties contains your Twitter authentication values.
  * {@see https://apps.twitter.com}
  */
-public class TwitterStream {
+public class TwitterStreamTask {
   /**
    * Kryo serializer offers much better performance than the default serializer.
    * {@see https://spark.apache.org/docs/latest/tuning.html#data-serialization}
@@ -33,7 +33,7 @@ public class TwitterStream {
    * We use a logger to print the output. Sl4j is a common library which works with log4j, the
    * logging system used by Apache Spark.
    */
-  private static final Logger LOGGER = LoggerFactory.getLogger(TwitterStream.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TwitterStreamTask.class);
 
   /**
    * This is the entry point function when the task is called with spark-submit.sh from command
@@ -41,7 +41,7 @@ public class TwitterStream {
    * See {@see http://spark.apache.org/docs/latest/submitting-applications.html}
    */
   public static void main(String args[]) throws InterruptedException {
-    new TwitterStream().run();
+    new TwitterStreamTask().run();
   }
 
   public void run() throws InterruptedException {
