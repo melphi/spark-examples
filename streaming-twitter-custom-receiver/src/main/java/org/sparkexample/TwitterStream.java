@@ -59,14 +59,14 @@ public class TwitterStream {
     JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(10));
 
     /*
-     * Uses the custom Twitter receiver. For every micro batch prints the RDD content.
+     * Uses the custom Twitter receiver. For every micro batch prints the collected messages.
      *
      * Make sure resources/twitter4j.properties contains your Twitter authentication values.
      * {@see https://apps.twitter.com}
      */
     streamingContext.receiverStream(new TwitterReceiver(StorageLevel.MEMORY_ONLY()))
         .foreachRDD(
-            rdd -> rdd.foreach(message -> LOGGER.info(message.toString())));
+            rdd -> rdd.foreach(message -> LOGGER.info(message.getText())));
 
     /*
      * Starts the streaming task.
