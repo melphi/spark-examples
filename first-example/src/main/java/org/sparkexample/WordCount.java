@@ -23,7 +23,7 @@ public class WordCount {
   /**
    * This is the entry point function when the task is called with spark-submit.sh from command
    * line. In our example we will call the task from a WordCountTest instead.
-   * See {@link http://spark.apache.org/docs/latest/submitting-applications.html}
+   * See {@see http://spark.apache.org/docs/latest/submitting-applications.html}
    */
   public static void main(String[] args) {
     checkArgument(args.length > 1, "Please provide the path of input file as first parameter.");
@@ -37,7 +37,7 @@ public class WordCount {
     /**
      * This is the address of the Spark cluster. We will call the task from WordCountTest and we
      * use a local standalone cluster. [*] means use all the cores available.
-     * See {@link http://spark.apache.org/docs/latest/submitting-applications.html#master-urls}.
+     * See {@see http://spark.apache.org/docs/latest/submitting-applications.html#master-urls}.
      */
     String master = "local[*]";
 
