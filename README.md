@@ -5,8 +5,8 @@ spark-examples
 
 To run the Java example go to the project folder and execute maven test command. Java 8 or above is required.
 
-- first-example: Spark, Maven, Java. Performs a simple word count task.
-- streaming-twitter-custom-receiver: Spark streaming, Maven, Java, Twitter custom receiver. A custom receiver to collect Twitter messages streams. 
+- **first-example**: Performs a simple word count task. Spark, Maven, Java.
+- **streaming-twitter-custom-receiver**: A custom receiver to collect Twitter messages streams. Spark streaming, Maven, Java, Twitter custom receiver. 
 
 
 ## More information
