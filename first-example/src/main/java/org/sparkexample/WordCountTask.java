@@ -21,13 +21,12 @@ public class WordCountTask {
   private static final Logger LOGGER = LoggerFactory.getLogger(WordCountTask.class);
 
   /**
-   * This is the entry point function when the task is called with spark-submit.sh from command
-   * line. In our example we will call the task from a WordCountTest instead.
+   * This is the entry point when the task is called from command line with spark-submit.sh.
    * See {@see http://spark.apache.org/docs/latest/submitting-applications.html}
    */
   public static void main(String[] args) {
-    checkArgument(args.length > 1, "Please provide the path of input file as first parameter.");
-    new WordCountTask().run(args[1]);
+    checkArgument(args.length > 0, "Please provide the path of input file as first parameter.");
+    new WordCountTask().run(args[0]);
   }
 
   /**
